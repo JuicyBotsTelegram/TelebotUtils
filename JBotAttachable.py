@@ -9,7 +9,7 @@ class JBotAttachable:
     def _buildHandlerDict(handler, **filters): return {'function': handler, 'filters': filters}
 
     @classmethod
-    def _addMsgHandler(cls, bot: TeleBot, handler: Callable, **filters: Dict):
+    def _addMsgHandler(cls, bot: TeleBot, handler: Callable, **filters):
         bot.add_message_handler(cls._buildHandlerDict(handler, **filters))
 
     @classmethod
