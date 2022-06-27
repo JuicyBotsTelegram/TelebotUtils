@@ -6,15 +6,15 @@ from telebot import TeleBot
 class JBotAttachable:
 
     @staticmethod
-    def __buildHandlerDict(handler, **filters): return {'function': handler, 'filters': filters}
+    def _buildHandlerDict(handler, **filters): return {'function': handler, 'filters': filters}
 
     @classmethod
-    def __addMsgHandler(cls, bot: TeleBot, handler: Callable, **filters: Dict):
-        bot.add_message_handler(cls.__buildHandlerDict(handler, **filters))
+    def _addMsgHandler(cls, bot: TeleBot, handler: Callable, **filters: Dict):
+        bot.add_message_handler(cls._buildHandlerDict(handler, **filters))
 
     @classmethod
-    def __addCallHandler(cls, bot: TeleBot, handler: Callable, **filters):
-        bot.add_callback_query_handler(cls.__buildHandlerDict(handler, **filters))
+    def _addCallHandler(cls, bot: TeleBot, handler: Callable, **filters):
+        bot.add_callback_query_handler(cls._buildHandlerDict(handler, **filters))
 
     @classmethod
     def attachHandlers(cls, bot: TeleBot):
