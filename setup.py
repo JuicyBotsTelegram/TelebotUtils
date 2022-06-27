@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='JTelebotUtils',
-    version='1.11',
+    version='1.12',
     packages=["."],
     url='github.com/AlterJuice',
     license='',
