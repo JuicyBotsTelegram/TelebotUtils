@@ -1,29 +1,17 @@
-from typing import Callable, Dict
+from __future__ import annotations
 
 from telebot import TeleBot
 
 
 class JBotAttachable:
 
-    @staticmethod
-    def _buildHandlerDict(handler, **filters): return {'function': handler, 'filters': filters}
-
     @classmethod
-    def _addMsgHandler(cls, bot: TeleBot, handler: Callable, **filters):
-        bot.add_message_handler(cls._buildHandlerDict(handler, **filters))
-
-    @classmethod
-    def _addCallHandler(cls, bot: TeleBot, handler: Callable, **filters):
-        bot.add_callback_query_handler(cls._buildHandlerDict(handler, **filters))
-
-    @classmethod
-    def attachHandlers(cls, bot: TeleBot):
+    def attachHandlers(cls, _bot: TeleBot):
         """
         Abstract method which helps to attach telebot handlers.
         Example:
-            bot.addMsgHandler(cls.someFunction, func=lambda msg: msg.text.contains('carma_my_chat') and fromGroupPrivate(msg))
-            bot.addCallHandler(cls.joinCarmaGameCall, func=lambda call: call_starts(call, 'game_carma_join'))
+            _bot.register_message_handler(cls.someFunction, func=lambda msg: msg.text.contains('carma_my_chat') and fromGroupPrivate(msg))
+            _bot.register_callback_query_handler(cls.joinCarmaGameCall, func=lambda call: call_starts(call, 'game_carma_join'))
         """
-
         raise NotImplementedError()
 
