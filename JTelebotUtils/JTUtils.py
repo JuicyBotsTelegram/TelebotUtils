@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from typing import Callable
 
-from telebot import types
+import telebot.types as types
 
 
 def generateComparatorToCheckIfUserIsAdmin(admin_ids: list[int]) -> Callable[[types.Message], bool]:

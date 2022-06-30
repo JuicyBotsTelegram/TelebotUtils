@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from telebot import types
 
-from JTUtils import cle
+from JTelebotUtils.JTUtils import cle
 
 
 def makeFullName(first_name: str, last_name: str | None, user_name: str | None):
