@@ -5,20 +5,20 @@ import telebot
 from JTelebotUtils.Utils import cle
 
 
-def makeFullName(first_name: str, last_name: str | None, user_name: str | None):
+def makeFullName(first_name: str, last_name: str | None, user_name: str | None) -> str:
     last_name = ' '+last_name if last_name else ''
     user_name = ('(@'+user_name+')') if user_name else ''
     return cle(f'{first_name}{last_name}{user_name}')
 
 
-def makeFullNameTG(u: telebot.types.User):
+def makeFullNameTG(u: telebot.types.User) -> str:
     return makeFullName(u.first_name, u.last_name, u.username)
 
 
-def makeName(first_name: str, last_name: str | None):
+def makeName(first_name: str, last_name: str | None) -> str:
     last_name = ' '+last_name if last_name else ''
     return cle(f'{first_name}{last_name}')
 
 
-def makeNameTG(u: telebot.types.User):
+def makeNameTG(u: telebot.types.User) -> str:
     return makeName(u.first_name, u.last_name)

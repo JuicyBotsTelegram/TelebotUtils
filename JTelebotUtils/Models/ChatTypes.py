@@ -1,7 +1,7 @@
 
 class ChatTypes:
     # https://core.telegram.org/bots/api#chat
-    GROUP = "group"
-    SUPERGROUP = "supergroup"
-    CHANNEL = "channel"
-    PRIVATE = "private"
+    GROUP: str = "group"
+    SUPERGROUP: str = "supergroup"
+    CHANNEL: str = "channel"
+    PRIVATE: str = "private"
