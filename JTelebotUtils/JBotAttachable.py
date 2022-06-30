@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Callable
 
 import telebot
+from telebot.types import BotCommand
 
 from JTelebotUtils.Extensions import TMsgExt
 from JTelebotUtils.Utils import generateComparatorToCheckIfUserIsAdmin
@@ -25,6 +26,7 @@ class JBotEvaluator(JBotAttachable):
     evalPrefix: str = "C/"
     adminIds: list[int] = []
     isAdmin: Callable[[telebot.types.Message], bool] = generateComparatorToCheckIfUserIsAdmin(adminIds)
+    USED_COMMANDS: list[BotCommand] = list()
 
     @classmethod
     def __recreateIsAdmin(cls):
@@ -40,17 +42,16 @@ class JBotEvaluator(JBotAttachable):
             bot.send_message(msg.chat.id, str(e))
 
     @classmethod
-    def attachHandlers(cls, _bot: telebot.TeleBot) -> list[str]:
+    def attachHandlers(cls, _bot: telebot.TeleBot) -> list[BotCommand]:
         """
         :param _bot:
         :returns: the list of accepted message commands for future setting it in bot via command bot#.set_my_commands
         """
-        accepted_commands = list()
         _bot.register_message_handler(cls.evalCommands, func=lambda msg: TMsgExt.isMsgTextStartsWith(msg, cls.evalPrefix) and cls.isAdmin(msg))
-        return accepted_commands
+        return cls.USED_COMMANDS
 
     @classmethod
-    def attachHandlersWithProperties(cls, _bot: telebot.TeleBot, admin_ids: list[int]) -> list[str]:
+    def attachHandlersWithProperties(cls, _bot: telebot.TeleBot, admin_ids: list[int]) -> list[BotCommand]:
         cls.adminIds = admin_ids
         cls.__recreateIsAdmin()
         return cls.attachHandlers(_bot)
