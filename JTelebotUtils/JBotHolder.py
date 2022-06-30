@@ -1,15 +1,15 @@
-from telebot import TeleBot
+import telebot
 
 from JTelebotUtils.JBotAttachable import JBotAttachable
 
 
 class JBotHolder(JBotAttachable):
-    def __init__(self, bot: TeleBot, attach_handlers: bool):
-        self.__bot: TeleBot = bot
+    def __init__(self, bot: telebot.TeleBot, attach_handlers: bool):
+        self.__bot: telebot.TeleBot = bot
         if attach_handlers:
             self.attachHandlers(bot)
 
     @property
-    def bot(self) -> TeleBot: return self.__bot
+    def bot(self) -> telebot.TeleBot: return self.__bot
 
 
