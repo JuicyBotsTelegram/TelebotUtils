@@ -25,6 +25,9 @@ class JBotEvaluator(JBotAttachable):
     adminIds: list[int] = []
     isAdmin: Callable[[telebot.types.Message], bool] = generateComparatorToCheckIfUserIsAdmin(adminIds)
 
+    @classmethod
+    def __recreateIsAdmin(cls):
+        cls.isAdmin = generateComparatorToCheckIfUserIsAdmin(cls.adminIds)
 
     @staticmethod
     def evalCommands(msg: telebot.types.Message, bot: telebot.TeleBot):
@@ -38,3 +41,10 @@ class JBotEvaluator(JBotAttachable):
     @classmethod
     def attachHandlers(cls, _bot: telebot.TeleBot):
         _bot.register_message_handler(cls.evalCommands, func=lambda msg: TMsgExt.isMsgTextStartsWith(msg, cls.evalPrefix) and cls.isAdmin(msg))
+
+
+    @classmethod
+    def attachHandlersWithProperties(cls, _bot: telebot.TeleBot, admin_ids: list[int]):
+        cls.adminIds = admin_ids
+        cls.__recreateIsAdmin()
+        cls.attachHandlers(_bot)
