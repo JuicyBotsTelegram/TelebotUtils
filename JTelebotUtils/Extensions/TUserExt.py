@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from telebot import types
+import telebot
 
-from JTelebotUtils.JTUtils import cle
+from JTelebotUtils.Utils import cle
 
 
 def makeFullName(first_name: str, last_name: str | None, user_name: str | None):
@@ -11,7 +11,7 @@ def makeFullName(first_name: str, last_name: str | None, user_name: str | None):
     return cle(f'{first_name}{last_name}{user_name}')
 
 
-def makeFullNameTG(u: types.User):
+def makeFullNameTG(u: telebot.types.User):
     return makeFullName(u.first_name, u.last_name, u.username)
 
 
@@ -20,5 +20,5 @@ def makeName(first_name: str, last_name: str | None):
     return cle(f'{first_name}{last_name}')
 
 
-def makeNameTG(u: types.User):
+def makeNameTG(u: telebot.types.User):
     return makeName(u.first_name, u.last_name)

@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from telebot import TeleBot
+import telebot
 
 
 class JBotAttachable:
 
     @classmethod
-    def attachHandlers(cls, _bot: TeleBot):
+    def attachHandlers(cls, _bot: telebot.TeleBot):
         """
         Abstract method which helps to attach telebot handlers.
         Example:
