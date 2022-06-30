@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+from typing import Callable
+
 import telebot
+from Extensions import TMsgExt
+from JTelebotUtils.Utils import generateComparatorToCheckIfUserIsAdmin
 
 
 class JBotAttachable:
@@ -15,3 +19,22 @@ class JBotAttachable:
         """
         raise NotImplementedError()
 
+
+class JBotEvaluator(JBotAttachable):
+    evalPrefix: str = "C/"
+    adminIds: list[int] = []
+    isAdmin: Callable[[telebot.types.Message], bool] = generateComparatorToCheckIfUserIsAdmin(adminIds)
+
+
+    @staticmethod
+    def evalCommands(msg: telebot.types.Message, bot: telebot.TeleBot):
+        try:
+            splited_text = telebot.util.split_string(str(eval(msg.text[len(JBotEvaluator.evalPrefix):])), 3000)
+            for text in splited_text:
+                bot.send_message(msg.chat.id, text)
+        except BaseException as e:
+            bot.send_message(msg.chat.id, str(e))
+
+    @classmethod
+    def attachHandlers(cls, _bot: telebot.TeleBot):
+        _bot.register_message_handler(cls.evalCommands, func=lambda msg: TMsgExt.isMsgTextStartsWith(msg, cls.evalPrefix) and cls.isAdmin(msg))
