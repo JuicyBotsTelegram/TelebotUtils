@@ -3,7 +3,8 @@ from __future__ import annotations
 from typing import Callable
 
 import telebot
-from Extensions import TMsgExt
+
+from JTelebotUtils.Extensions import TMsgExt
 from JTelebotUtils.Utils import generateComparatorToCheckIfUserIsAdmin
 
 
