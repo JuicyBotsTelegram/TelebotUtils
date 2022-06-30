@@ -1,6 +1,6 @@
 from telebot import types
 # TMsgExt means TelebotMessageExtensions
-from Models.ChatTypes import ChatTypes
+from JTelebotUtils.Models.ChatTypes import ChatTypes
 
 
 def isFromGroup(msg: types.Message):

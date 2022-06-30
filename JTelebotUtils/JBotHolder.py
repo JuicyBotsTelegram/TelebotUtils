@@ -1,6 +1,6 @@
 from telebot import TeleBot
 
-from JBotAttachable import JBotAttachable
+from JTelebotUtils.JBotAttachable import JBotAttachable
 
 
 class JBotHolder(JBotAttachable):
