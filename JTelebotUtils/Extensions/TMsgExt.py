@@ -18,3 +18,8 @@ def isFromPrivate(msg: telebot.types.Message) -> bool:
 def isFromChannel(msg: telebot.types.Message) -> bool:
     return msg.chat.type == ChatTypes.CHANNEL
 
+
+def isMsgTextStartsWith(msg: telebot.types.Message, template) -> bool:
+    if msg.text:
+        return msg.text.startswith(template)
+    return False
