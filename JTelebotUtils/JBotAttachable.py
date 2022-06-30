@@ -39,12 +39,17 @@ class JBotEvaluator(JBotAttachable):
             bot.send_message(msg.chat.id, str(e))
 
     @classmethod
-    def attachHandlers(cls, _bot: telebot.TeleBot):
+    def attachHandlers(cls, _bot: telebot.TeleBot) -> list[str]:
+        """
+        :param _bot:
+        :returns: the list of accepted message commands for future setting it in bot via command bot#.set_my_commands
+        """
+        accepted_commands = list()
         _bot.register_message_handler(cls.evalCommands, func=lambda msg: TMsgExt.isMsgTextStartsWith(msg, cls.evalPrefix) and cls.isAdmin(msg))
-
+        return accepted_commands
 
     @classmethod
-    def attachHandlersWithProperties(cls, _bot: telebot.TeleBot, admin_ids: list[int]):
+    def attachHandlersWithProperties(cls, _bot: telebot.TeleBot, admin_ids: list[int]) -> list[str]:
         cls.adminIds = admin_ids
         cls.__recreateIsAdmin()
-        cls.attachHandlers(_bot)
+        return cls.attachHandlers(_bot)
