@@ -36,3 +36,11 @@ def cut_it(text: str, off=14, fill_with_symbol: str = "."):
     if off:
         return text[:off].ljust(off + 2, fill_with_symbol) if len(text) > off else text
     return text
+
+
+def vice_versa_of_01(int_0_or_1: int) -> int:
+    """
+    :param int_0_or_1: An integer that could be 0 or 1
+    :return: returns the alternative variant. if inputed 0 -> 1 will be outputed
+    """
+    return abs(int(int_0_or_1) - 1)
