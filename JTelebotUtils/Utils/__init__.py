@@ -38,9 +38,14 @@ def cut_it(text: str, off=14, fill_with_symbol: str = "."):
     return text
 
 
-def vice_versa_of_01(int_0_or_1: int) -> int:
+def vice_versa_of_01(int_0_or_1: int | str) -> int:
     """
     :param int_0_or_1: An integer that could be 0 or 1
     :return: returns the alternative variant. if inputed 0 -> 1 will be outputed
     """
+    if isinstance(int_0_or_1, str):
+        if int_0_or_1.isdigit():
+            int_0_or_1 = int(int_0_or_1)
+        else:
+            return 0
     return abs(int(int_0_or_1) - 1)
