@@ -46,17 +46,17 @@ class HTML(TGFormats):
     @property
     def mode(self) -> str: return self.MODE_HTML
     def _custom_tag(self, tag, text): return self._set_tagged_text(f"<{tag}>{text}</{tag}>")
-    def b(self): return self._custom_tag("b", self)
-    def strong(self): return self._custom_tag("strong", self)
-    def i(self): return self._custom_tag("i", self)
-    def em(self): return self._custom_tag("em", self)
-    def code(self): return self._custom_tag("code", self)
-    def s(self): return self._custom_tag("s", self)
-    def strike(self): return self._custom_tag("strike", self)
-    def del_(self): return self._custom_tag("del", self)
-    def u(self): return self._custom_tag("u", self)
-    def pre(self): return self._custom_tag("pre", self)
-    def url(self, url=None): return f'<a href="{url}">{self}</a>' if url else self
+    def b(self): return self._custom_tag("b", self.raw_text)
+    def strong(self): return self._custom_tag("strong", self.raw_text)
+    def i(self): return self._custom_tag("i", self.raw_text)
+    def em(self): return self._custom_tag("em", self.raw_text)
+    def code(self): return self._custom_tag("code", self.raw_text)
+    def s(self): return self._custom_tag("s", self.raw_text)
+    def strike(self): return self._custom_tag("strike", self.raw_text)
+    def del_(self): return self._custom_tag("del", self.raw_text)
+    def u(self): return self._custom_tag("u", self.raw_text)
+    def pre(self): return self._custom_tag("pre", self.raw_text)
+    def url(self, url=None): return self._set_tagged_text(f'<a href="{url}">{self.raw_text}</a>' if url else self.raw_text)
     def url_mention(self, user_id): return self.url(f"tg://user?id={user_id}")
 
 
@@ -64,17 +64,17 @@ class MDown(TGFormats):
     @property
     def mode(self) -> str: return self.MODE_MARKDOWN
     def _custom_tag(self, tag, text) -> MDown: return self._set_tagged_text(f"{tag}{text}{tag}")
-    def b(self): return self._custom_tag("**", self)
-    def strong(self): return self._custom_tag("**", self)
-    def i(self): return self._custom_tag("_", self)
-    def em(self): return self._custom_tag("_", self)
-    def code(self): return self._custom_tag("`", self)
-    def s(self): return self._custom_tag("~~", self)
-    def strike(self): return self._custom_tag("~~", self)
-    def del_(self): return self._custom_tag("~~", self)
+    def b(self): return self._custom_tag("**", self.raw_text)
+    def strong(self): return self._custom_tag("**", self.raw_text)
+    def i(self): return self._custom_tag("_", self.raw_text)
+    def em(self): return self._custom_tag("_", self.raw_text)
+    def code(self): return self._custom_tag("`", self.raw_text)
+    def s(self): return self._custom_tag("~~", self.raw_text)
+    def strike(self): return self._custom_tag("~~", self.raw_text)
+    def del_(self): return self._custom_tag("~~", self.raw_text)
     def u(self): return self
-    def pre(self): return self._custom_tag("```", self)
-    def url(self, url=None): return f"[{self}]({url})" if url else self
+    def pre(self): return self._custom_tag("```", self.raw_text)
+    def url(self, url=None): return self._set_tagged_text(f"[{self.raw_text}]({url})" if url else self.raw_text)
     def url_mention(self, user_id): return self.url(f"tg://user?id={user_id}")
 
 
