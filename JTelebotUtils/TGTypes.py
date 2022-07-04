@@ -27,7 +27,7 @@ class TGFormats(ABC):
     @property
     def mode(self) -> str: raise NotImplementedError()
 
-    def _custom_tag(self, tag, text): raise NotImplementedError()
+    def _custom_tag(self, tag): raise NotImplementedError()
     def b(self): raise NotImplementedError()  # bold
     def strong(self): raise NotImplementedError()  # strong
     def i(self): raise NotImplementedError()  # italic
@@ -45,17 +45,17 @@ class TGFormats(ABC):
 class HTML(TGFormats):
     @property
     def mode(self) -> str: return self.MODE_HTML
-    def _custom_tag(self, tag, text): return self._set_tagged_text(f"<{tag}>{text}</{tag}>")
-    def b(self): return self._custom_tag("b", self.raw_text)
-    def strong(self): return self._custom_tag("strong", self.raw_text)
-    def i(self): return self._custom_tag("i", self.raw_text)
-    def em(self): return self._custom_tag("em", self.raw_text)
-    def code(self): return self._custom_tag("code", self.raw_text)
-    def s(self): return self._custom_tag("s", self.raw_text)
-    def strike(self): return self._custom_tag("strike", self.raw_text)
-    def del_(self): return self._custom_tag("del", self.raw_text)
-    def u(self): return self._custom_tag("u", self.raw_text)
-    def pre(self): return self._custom_tag("pre", self.raw_text)
+    def _custom_tag(self, tag): return self._set_tagged_text(f"<{tag}>{self.raw_text}</{tag}>")
+    def b(self): return self._custom_tag("b")
+    def strong(self): return self._custom_tag("strong")
+    def i(self): return self._custom_tag("i")
+    def em(self): return self._custom_tag("em")
+    def code(self): return self._custom_tag("code")
+    def s(self): return self._custom_tag("s")
+    def strike(self): return self._custom_tag("strike")
+    def del_(self): return self._custom_tag("del")
+    def u(self): return self._custom_tag("u")
+    def pre(self): return self._custom_tag("pre")
     def url(self, url=None): return self._set_tagged_text(f'<a href="{url}">{self.raw_text}</a>' if url else self.raw_text)
     def url_mention(self, user_id): return self.url(f"tg://user?id={user_id}")
 
@@ -63,37 +63,37 @@ class HTML(TGFormats):
 class MDown(TGFormats):
     @property
     def mode(self) -> str: return self.MODE_MARKDOWN
-    def _custom_tag(self, tag, text) -> MDown: return self._set_tagged_text(f"{tag}{text}{tag}")
-    def b(self): return self._custom_tag("**", self.raw_text)
-    def strong(self): return self._custom_tag("**", self.raw_text)
-    def i(self): return self._custom_tag("_", self.raw_text)
-    def em(self): return self._custom_tag("_", self.raw_text)
-    def code(self): return self._custom_tag("`", self.raw_text)
-    def s(self): return self._custom_tag("~~", self.raw_text)
-    def strike(self): return self._custom_tag("~~", self.raw_text)
-    def del_(self): return self._custom_tag("~~", self.raw_text)
+    def _custom_tag(self, tag) -> MDown: return self._set_tagged_text(f"{tag}{self.raw_text}{tag}")
+    def b(self): return self._custom_tag("**")
+    def strong(self): return self._custom_tag("**")
+    def i(self): return self._custom_tag("_")
+    def em(self): return self._custom_tag("_")
+    def code(self): return self._custom_tag("`")
+    def s(self): return self._custom_tag("~~")
+    def strike(self): return self._custom_tag("~~")
+    def del_(self): return self._custom_tag("~~")
     def u(self): return self
-    def pre(self): return self._custom_tag("```", self.raw_text)
+    def pre(self): return self._custom_tag("```")
     def url(self, url=None): return self._set_tagged_text(f"[{self.raw_text}]({url})" if url else self.raw_text)
     def url_mention(self, user_id): return self.url(f"tg://user?id={user_id}")
 
 
 class AnnotatedString:
     def __init__(self):
-        self._parts: list[str | HTML | MDown] = list()
+        self._parts: list[str | TGFormats] = list()
         self._first_found_tg_format_mode: Optional[str] = None
 
     @property
     def mode(self) -> Optional[str]:
         return self._first_found_tg_format_mode
 
-    def clear_and_add(self, some_str: str | HTML | MDown) -> AnnotatedString:
+    def clear_and_add(self, some_str: str | TGFormats) -> AnnotatedString:
         self._parts.clear()
         self._first_found_tg_format_mode = None
         return self.add(some_str)
 
-    def add(self, some_str: str | HTML | MDown) -> AnnotatedString:
-        if isinstance(some_str, (HTML, MDown)):
+    def add(self, some_str: str | TGFormats) -> AnnotatedString:
+        if isinstance(some_str, TGFormats):
             if self._first_found_tg_format_mode is None:
                 self._first_found_tg_format_mode = some_str.mode
             else:
