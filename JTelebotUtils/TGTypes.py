@@ -87,6 +87,11 @@ class AnnotatedString:
     def mode(self) -> Optional[str]:
         return self._first_found_tg_format_mode
 
+    def clear_and_add(self, some_str: str | HTML | MDown) -> AnnotatedString:
+        self._parts.clear()
+        self._first_found_tg_format_mode = None
+        return self.add(some_str)
+
     def add(self, some_str: str | HTML | MDown) -> AnnotatedString:
         if isinstance(some_str, (HTML, MDown)):
             if self._first_found_tg_format_mode is None:
