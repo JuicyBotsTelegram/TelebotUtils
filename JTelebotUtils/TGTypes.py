@@ -102,9 +102,10 @@ class AnnotatedString:
         self._parts.append(some_str)
         return self
 
-    def extend(self, *args: str | TGFormats):
+    def extend(self, *args: str | TGFormats) -> AnnotatedString:
         for arg in args:
             self.add(arg)
+        return self
 
     @property
     def raw_text(self) -> str:
