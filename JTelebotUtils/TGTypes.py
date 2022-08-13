@@ -114,3 +114,6 @@ class AnnotatedString:
     @property
     def transformed(self) -> str:
         return "".join(part.tagged_text if isinstance(part, TGFormats) else part for part in self._parts)
+
+    def toParams(self) -> dict[str, str]:
+        return dict(text=self.transformed, parse_mode=self.mode)
