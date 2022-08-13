@@ -92,14 +92,17 @@ class AnnotatedString:
         self._first_found_tg_format_mode = None
         return self.add(some_str)
 
-    def add(self, some_str: str | TGFormats) -> AnnotatedString:
-        if isinstance(some_str, TGFormats):
+    def add(self, some_str: str | TGFormats | AnnotatedString) -> AnnotatedString:
+        if isinstance(some_str, (TGFormats, AnnotatedString)):
             if self._first_found_tg_format_mode is None:
                 self._first_found_tg_format_mode = some_str.mode
             else:
                 if self._first_found_tg_format_mode != some_str.mode:
                     raise ValueError(f"Cannot store different markdowns, {self._first_found_tg_format_mode} is used")
-        self._parts.append(some_str)
+        if isinstance(some_str, AnnotatedString):
+            self._parts.extend(some_str._parts)
+        else:
+            self._parts.append(some_str)
         return self
 
     def extend(self, *args: str | TGFormats) -> AnnotatedString:
