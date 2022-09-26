@@ -51,7 +51,7 @@ class JBotEvaluator(JBotAttachable):
         return cls.USED_COMMANDS
 
     @classmethod
-    def attachHandlersWithProperties(cls, _bot: telebot.TeleBot, evaluate_prefix: str, admin_ids: list[int]) -> list[BotCommand]:
+    def attachHandlersWithProperties(cls, _bot: telebot.TeleBot, admin_ids: list[int], evaluate_prefix: str = evalPrefix) -> list[BotCommand]:
         cls.evalPrefix = evaluate_prefix
         cls.adminIds = admin_ids
         cls.__recreateIsAdmin()
